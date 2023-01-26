@@ -27,8 +27,8 @@ ax.tick_params(axis='both', which='major', labelsize=14)
 # Set the range for each axis
 ax.axis([0, 1100, 0, 1100000])
 
-fig.savefig('squares_plot1.png', bbox_inches='tight')
+fig.savefig('IMAGES/squares_plot1.png', bbox_inches='tight')
 plt.show()
 
 # This will save any changes made when in the pyplot interface
-fig.savefig('squares_plot2.png', bbox_inches='tight')
+fig.savefig('IMAGES/squares_plot2.png', bbox_inches='tight')

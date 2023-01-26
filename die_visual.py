@@ -24,4 +24,4 @@ y_axis_config = {'title': 'Frequency of Result'}
 
 my_layout = Layout(title='Results of rolling two D8 50,000 times',
                    xaxis=x_axis_config, yaxis=y_axis_config)
-offline.plot({'data': data, 'layout': my_layout}, filename='d8_d8.html')
+offline.plot({'data': data, 'layout': my_layout}, filename='HTML/d8_d8.html')
