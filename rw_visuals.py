@@ -12,6 +12,7 @@ fig, ax = plt.subplots(figsize=(10, 6))
 points_numbers = range(rw.num_points)
 ax.scatter(rw.x_values, rw.y_values, c=points_numbers,
            cmap=plt.cm.Blues, edgecolors='none', s=1)
+ax.set_aspect('equal')
 
 # emphasize the first and last points
 ax.scatter(0, 0, c='green', edgecolors='none', s=100)
