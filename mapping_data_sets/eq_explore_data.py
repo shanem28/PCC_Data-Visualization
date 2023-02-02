@@ -1,9 +1,14 @@
+'''
+Loading JSON data. 
+From Chaper 16 of Python Crash Course 2nd Edition by Eric Matthes
+'''
+
 import json
 from pathlib import Path
 
 # Explore the structure of the data
-path = Path('data/eq_data_1_day_m1.json')
-contents = path.read_text()
+path = Path('data/eq_data_1_day_m1.geojson')
+contents = path.read_text(encoding='UTF-8')
 all_eq_data = json.loads(contents)
 
 # # Create a more readable version of the data
