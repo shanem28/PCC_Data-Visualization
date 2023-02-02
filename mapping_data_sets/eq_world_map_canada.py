@@ -1,3 +1,5 @@
+'''Visualizing XML Earthquake Data from Canada.'''
+
 import xml.etree.ElementTree as ET
 import plotly.express as px
 
