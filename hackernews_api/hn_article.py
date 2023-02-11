@@ -1,4 +1,8 @@
 import requests
+'''
+Hacker News API Calls 
+From Chaper 17 of Python Crash Course 2nd Edition by Eric Matthes
+'''
 import json
 
 # Make an API call

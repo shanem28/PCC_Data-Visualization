@@ -1,3 +1,7 @@
+'''
+Hacker News API Calls 
+From Chaper 17 of Python Crash Course 2nd Edition by Eric Matthes
+'''
 from operator import itemgetter
 import requests
 
