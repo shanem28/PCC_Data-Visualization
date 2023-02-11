@@ -16,6 +16,7 @@ print(f'Status code: {r.status_code}')
 
 # Process overall results
 response_dict = r.json()
+print(f"Total repositories: {response_dict['total_count']}")
 print(f"Complete results: {not response_dict['incomplete_results']}")
 
 # Process respository information
