@@ -2,43 +2,51 @@
 Exercise 17-2
 From Chaper 17 of Python Crash Course 2nd Edition by Eric Matthes
 '''
-
+from operator import itemgetter
 import requests
 import plotly.express as px
 
-# Make an API call and check the response.
-url = "https://api.github.com/search/repositories"
-url += "?q=language:c+sort:stars+stars:>10000"
+# Make an API call
+url = 'https://hacker-news.firebaseio.com/v0/topstories.json'
+r = requests.get(url)
+print(f'status code {r.status_code}')
 
-headers = {'Accept': 'application/vnd.github.v3+json'}
-r = requests.get(url, headers=headers)
-print(f'Status code: {r.status_code}')
+# Process information about each submission
+submission_ids = r.json()
+submission_dicts = []
+for submission_id in submission_ids[:30]:
+    url = f'https://hacker-news.firebaseio.com/v0/item/{submission_id}.json'
+    r = requests.get(url)
+    print(f'id: {submission_id}\tstatus: {r.status_code}')
+    response_dict = r.json()
 
-# Process overall results
-response_dict = r.json()
-print(f"Total repositories: {response_dict['total_count']}")
-print(f"Complete results: {not response_dict['incomplete_results']}")
+    short_title = response_dict['title'].split()
+    short_title = " ".join(short_title[:5])
+    short_title += '...'
+    # Build a dictionary for each article
+    submission_dict = {
+        'full_title': response_dict['title'],
+        'short_title': short_title,
+        'link': f'http://news.ycombinator.com/item?id={submission_id}',
+        'comments': response_dict['descendants'],
+    }
 
-# Process respository information
-repo_dicts = response_dict['items']
-repo_links, stars, hover_texts = [], [], []
-for repo_dict in repo_dicts:
-    # Turn repo names into active links.
-    repo_name = repo_dict['name']
-    repo_link = repo_dict['html_url']
-    repo_links.append(f"<a href='{repo_link}'>{repo_name}</a>")
+    submission_dicts.append(submission_dict)
 
-    stars.append(repo_dict['stargazers_count'])
+submission_dicts = sorted(
+    submission_dicts, key=itemgetter('comments'), reverse=True)
 
-    # Build hover text
-    owner = repo_dict['owner']['login']
-    description = repo_dict['description']
-    hover_text = f'{owner}\n{description}'
-    hover_texts.append(hover_text)
+links, comments, hover_texts = [], [], []
+for submission in submission_dicts:
+    hover_texts.append(
+        f"{submission['full_title']}")
+    links.append(
+        f"<a href='{submission['link']}'>{submission['short_title']}</a>")
+    comments.append(submission['comments'])
 
-title = 'Most-Starred C Projects on GitHub'
-labels = {'x': 'Repository', 'y': 'Stars'}
-fig = px.bar(x=repo_links, y=stars, title=title,
+title = 'Most Commented Article on Hacker News Top Stories'
+labels = {'x': 'Article', 'y': 'Comments'}
+fig = px.bar(x=links, y=comments, title=title,
              labels=labels, hover_name=hover_texts)
 
 fig.update_layout(title_font_size=28, xaxis_title_font_size=20,
